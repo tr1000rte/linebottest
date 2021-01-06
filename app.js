@@ -12,7 +12,6 @@ const bot = linebot({
 
 const app = express();
 const linebotParser = bot.parser();
-app.post('/', linebotParser);
 
 bot.on('message', function(event) {
 
@@ -24,7 +23,8 @@ bot.on('message', function(event) {
     });
 });
 
-app.listen('/', process.env.PORT || 8080, function () {
+app.post('/', linebotParser);
+app.listen(process.env.PORT || 3000, () => {
     console.log('[BOT已準備就緒]');
 });
 
