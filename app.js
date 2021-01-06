@@ -14,9 +14,8 @@ const app = express();
 const linebotParser = bot.parser();
 
 bot.on('message', function(event) {
-
+    console.log(event);
     event.reply(event.message.text).then(function(data) {
-        console.log("reply successfully");
     })
     .catch((err) => {
         console.log(err);
