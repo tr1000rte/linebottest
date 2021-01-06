@@ -24,7 +24,7 @@ bot.on('message', function(event) {
     });
 });
 
-bot.listen('/', 8080, function () {
+app.listen('/', process.env.PORT || 8080, function () {
     console.log('[BOT已準備就緒]');
 });
 
