@@ -24,6 +24,7 @@ bot.on('message', function(event) {
     });
 });
 
-app.listen('/linewebhook', 3000, function () {
+bot.listen('/', 8080, function () {
     console.log('[BOT已準備就緒]');
 });
+
