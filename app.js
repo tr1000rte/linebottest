@@ -15,11 +15,9 @@ const linebotParser = bot.parser();
 
 bot.on('message', function(event) {
     console.log(event);
-    event.reply(event.message.text).then(function(data) {
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+    if (event.message.text = "123") {
+        event.reply('TEST');
+    }
 });
 
 app.post('/', linebotParser);
