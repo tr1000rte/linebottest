@@ -1,3 +1,4 @@
+const { text } = require('body-parser');
 const express = require('express');
 const linebot = require('linebot');
 
@@ -15,9 +16,12 @@ const linebotParser = bot.parser();
 
 bot.on('message', function(event) {
     console.log(event);
-    if (event.message.text = "123") {
-        event.reply('TEST');
-    }
+    if (event.message.text == "123") {
+        event.reply({
+            type: 'text',
+            text:'TEST'
+        });
+    };
 });
 
 app.post('/', linebotParser);
