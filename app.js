@@ -14,9 +14,10 @@ const bot = linebot({
 const app = express();
 const linebotParser = bot.parser();
 
-bot.on('message', function(event) {
-    console.log(event);
-    if (event.message.text == "123") {
+let el = event.message.text
+bot.on('message', function(el) {
+    console.log(el);
+    if (el == "123") {
         event.reply({
             type: 'text',
             text:'TEST'
