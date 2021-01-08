@@ -9,11 +9,6 @@ const config = {
 
 const client = new line.Client(config);
 
-const message = {
-    type: 'text',
-    text: 'Hello World!'
-};
-
 
 app.post('/', config, (req, res) => {
     Promise
