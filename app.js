@@ -15,6 +15,7 @@ const message = {
 };
 
 app.use(middleware(config));
+app.use(bodyParser.json())
 
 app.post('/', line.middleware(config), (req, res) => {
     Promise
