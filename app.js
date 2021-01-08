@@ -7,16 +7,15 @@ const config = {
     channelSecret: '7d99742ecd726beea928c780f7491a20'
   };
 
-const client = new line.Client(config);
-
-
-app.post('/', config, (req, res) => {
+  const app = express();
+  app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
       .all(req.body.events.map(handleEvent))
       .then((result) => res.json(result));
-});
-
-function handleEvent(event) {
+  });
+  
+  const client = new line.Client(config);
+  function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text') {
       return Promise.resolve(null);
     }
@@ -25,10 +24,9 @@ function handleEvent(event) {
       type: 'text',
       text: event.message.text
     });
-}
-
-
-app.listen(process.env.PORT || 8080, () => {
-    console.log('BOT已準備就緒');
-});
+  }
+  
+  app.listen(3000, () => {
+      console.log('Bot啟動中');
+  });
 
