@@ -1,25 +1,32 @@
 const express = require('express');
-const linebot = require('linebot');
+const line = require('@line/bot-sdk');
 
-const bot = linebot({
-    // channelId: CHANNEL_ID,
-    // channelSecret: CHANNEL_SECRET,
-    // channelAccessToken: CHANNEL_ACCESS_TOKEN
-    channelId: '1655554384',
-    channelSecret: '7d99742ecd726beea928c780f7491a20',
+
+require('dotenv').config();
+
+const client = new line.Client({
     channelAccessToken: '2HkvdXHtgKmt+wQbiZrcktDU41OG6VUDmJrFeocoBvbNmanbg8Z9entPRfzTQ/wMU1OosIzb+PdYMAf8BVrb30Q3GBcJO9YfWSpML/549ZVWyHI10mJcEVzare8ohgEJDU6/p+IGPHdYpzlQ41XHlwdB04t89/1O/w1cDnyilFU='
-});
+  });
+
+const message = {
+     type: 'text',
+    text: 'Hello World!'
+};
+
+client.replyMessage('<replyToken>', message)
+  .then((message) => {
+    console.log(message);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 
 const app = express();
 const linebotParser = bot.parser();
 
 
-bot.on('message', function(event) {
-    console.log(event);
-    if (Event.message.text == "123") {
-        Event.reply('TEST');
-    };
-});
+
 
 app.post('/', linebotParser);
 app.listen(process.env.PORT || 3000, () => {
