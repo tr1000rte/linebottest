@@ -7,7 +7,7 @@ const config = {
     channelSecret: '7d99742ecd726beea928c780f7491a20'
   };
 
-  const app = express();
+
   app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
       .all(req.body.events.map(handleEvent))
