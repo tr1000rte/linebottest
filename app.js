@@ -14,19 +14,13 @@ const message = {
     text: 'Hello World!'
 };
 
-client.replyMessage('<replyToken>', message)
-  .then((message) => {
-    console.log(message);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+app.use(middleware(config));
 
-  app.post('/', line.middleware(config), (req, res) => {
+app.post('/', line.middleware(config), (req, res) => {
     Promise
       .all(req.body.events.map(handleEvent))
       .then((result) => res.json(result));
-  });
+});
 
 function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text') {
