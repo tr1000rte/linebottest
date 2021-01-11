@@ -4,14 +4,19 @@ const app = express();
 
 const config = {
     channelAccessToken: '2HkvdXHtgKmt+wQbiZrcktDU41OG6VUDmJrFeocoBvbNmanbg8Z9entPRfzTQ/wMU1OosIzb+PdYMAf8BVrb30Q3GBcJO9YfWSpML/549ZVWyHI10mJcEVzare8ohgEJDU6/p+IGPHdYpzlQ41XHlwdB04t89/1O/w1cDnyilFU=',
-    channelSecret: '7d99742ecd726beea928c780f7491a20'
+    channelSecret: '7d99742ecd726beea928c780f7491a20',
+    channelID: '1655554384'
   };
 
 
-  app.post('/', line.middleware(config), (req, res) => {
+
+  app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
       .all(req.body.events.map(handleEvent))
-      .then((result) => res.json(result));
+      .then((result) => res.json(result))
+      .catch(err => {
+        console.log(err);
+      })
   });
   
   const client = new line.Client(config);
