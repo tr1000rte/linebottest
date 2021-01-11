@@ -8,9 +8,6 @@ const config = {
     channelID: '1655554384'
   };
 
-  app.get('/webhook', (req, res) => res.end(`I'm listening. Please access with POST.`));
-
-
   app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
       .all(req.body.events.map(handleEvent))
@@ -33,8 +30,8 @@ const config = {
       text: 'test successfully'
     });
 
-    const echo = { type: 'text', text: event.message.text };
-    return client.replyMessage(event.replyToken, echo);
+    // const echo = { type: 'text', text: event.message.text };
+    // return client.replyMessage(event.replyToken, echo);
 
   }
   
