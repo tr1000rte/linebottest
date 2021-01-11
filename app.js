@@ -8,7 +8,7 @@ const config = {
     channelID: '1655554384'
   };
 
-  app.get('/', (req, res) => res.end(`I'm listening. Please access with POST.`));
+  app.get('/webhook', (req, res) => res.end(`I'm listening. Please access with POST.`));
 
 
   app.post('/webhook', line.middleware(config), (req, res) => {
