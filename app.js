@@ -22,16 +22,23 @@ const config = {
   const client = new line.Client(config);
   function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text') {
+      //non-text msg ignore
       return Promise.resolve(null);
     }
-  
+    
+    if(event.message.text ==='test')
     return client.replyMessage(event.replyToken, {
       type: 'text',
-      text: event.message.text
+      text: 'test successfully'
     });
+
+    const echo = { type: 'text', text: event.message.text };
+    return client.replyMessage(event.replyToken, echo);
+
   }
   
   app.listen(process.env.PORT || 8080, () => {
       console.log('Bot啟動中');
   });
 
+  module.exports = app;
