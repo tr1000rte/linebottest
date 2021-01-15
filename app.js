@@ -32,7 +32,7 @@ const config = {
 
     // const echo = { type: 'text', text: event.message.text };
     // return client.replyMessage(event.replyToken, echo);
-
+    console.log(event);
   }
   
   app.listen(process.env.PORT || 8080, () => {
