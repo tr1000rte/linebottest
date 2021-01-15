@@ -1,28 +1,49 @@
-const express = require('express');
+'use strict';
+
 const line = require('@line/bot-sdk');
-const app = express();
+const express = require('express');
 
+// create LINE SDK config from env variables
 const config = {
-    channelAccessToken: '2HkvdXHtgKmt+wQbiZrcktDU41OG6VUDmJrFeocoBvbNmanbg8Z9entPRfzTQ/wMU1OosIzb+PdYMAf8BVrb30Q3GBcJO9YfWSpML/549ZVWyHI10mJcEVzare8ohgEJDU6/p+IGPHdYpzlQ41XHlwdB04t89/1O/w1cDnyilFU=',
-    channelSecret: '7d99742ecd726beea928c780f7491a20',
-    channelID: '1655554384'
-  };
-
-const client = new line.Client({
-  channelAccessToken: '2HkvdXHtgKmt+wQbiZrcktDU41OG6VUDmJrFeocoBvbNmanbg8Z9entPRfzTQ/wMU1OosIzb+PdYMAf8BVrb30Q3GBcJO9YfWSpML/549ZVWyHI10mJcEVzare8ohgEJDU6/p+IGPHdYpzlQ41XHlwdB04t89/1O/w1cDnyilFU='
-});
-
-const message = {
-  type: 'text',
-  text: 'Hello World!'
+  channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.CHANNEL_SECRET,
 };
 
-client.replyMessage('<replyToken>', message)
-  .then((response) => {
-    console.log(response);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// create LINE SDK client
+const client = new line.Client(config);
 
-  module.exports = app;
+// create Express app
+// about Express itself: https://expressjs.com/
+const app = express();
+
+// register a webhook handler with middleware
+// about the middleware, please refer to doc
+app.post('/callback', line.middleware(config), (req, res) => {
+  Promise
+    .all(req.body.events.map(handleEvent))
+    .then((result) => res.json(result))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).end();
+    });
+});
+
+// event handler
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    // ignore non-text-message event
+    return Promise.resolve(null);
+  }
+
+  // create a echoing text message
+  const echo = { type: 'text', text: event.message.text };
+
+  // use reply API
+  return client.replyMessage(event.replyToken, echo);
+}
+
+// listen on port
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`listening on ${port}`);
+});
