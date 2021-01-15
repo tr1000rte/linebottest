@@ -8,35 +8,21 @@ const config = {
     channelID: '1655554384'
   };
 
-  app.post('/callback', line.middleware(config), (req, res) => {
-    Promise
-      .all(req.body.events.map(handleEvent))
-      .then((result) => res.json(result))
-      .catch(err => {
-        console.log(err);
-      })
-  });
-  
-  const client = new line.Client(config);
-  function handleEvent(event) {
-    if (event.type !== 'message' || event.message.type !== 'text') {
-      //non-text msg ignore
-      return Promise.resolve(null);
-    }
-    
-    if(event.message.text ==='test')
-    return client.replyMessage(event.replyToken, {
-      type: 'text',
-      text: 'test successfully'
-    });
+const client = new line.Client({
+  channelAccessToken: '<channel access token>'
+});
 
-    // const echo = { type: 'text', text: event.message.text };
-    // return client.replyMessage(event.replyToken, echo);
-    console.log(event);
-  }
-  
-  app.listen(process.env.PORT || 8080, () => {
-      console.log('Bot啟動中');
+const message = {
+  type: 'text',
+  text: 'Hello World!'
+};
+
+client.replyMessage('<replyToken>', message)
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((err) => {
+    console.log(err);
   });
 
   module.exports = app;
